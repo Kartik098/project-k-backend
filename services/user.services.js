@@ -2,8 +2,9 @@
 const db = require('../db');
 
 async function createUser(userData) {
-  const query = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-  const values = [userData.username, userData.email, userData.password];
+  console.log(userData)
+  const values = [userData.firstName, userData.lastName, userData.email, userData.password];
+  const query = `INSERT INTO users (firstName, lastName, email, password) VALUES (${userData.firstName}, ${userData.lastName}, ${userData.email}, ${userData.password})`;
 
   return new Promise((resolve, reject) => {
     db.query(query, values, (error, results) => {

@@ -11,6 +11,7 @@ const getUserById = (req, res) => {
 };
 
 const createUser = async (req, res) => {
+  console.log(req.body)
   const result = await UserServices.createUser(req.body)
 };
 
