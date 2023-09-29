@@ -3,7 +3,11 @@ const Joi = require('joi');
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
-  username: {
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
     type: String,
     required: true,
   },
