@@ -10,11 +10,16 @@ const getUserById = (req, res) => {
   // Implementation to get a user by ID
 };
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
   console.log(req.body)
-  const result = await UserServices.createUser(req.body)
+  const result = await UserServices.createUser(req.body, next)
+  res.send(result)
 };
-
+const loginUser = async (req, res, next ) =>{
+  const result = await UserServices.login(req.body,res, next)
+  return result
+  // res.send(result)
+}
 // exports.updateUser = (req, res) => {
 //   // Implementation to update a user
 // };
@@ -24,5 +29,6 @@ const createUser = async (req, res) => {
 // };
 
 module.exports = {
-    createUser
+    createUser,
+    loginUser
 }

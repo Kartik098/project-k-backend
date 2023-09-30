@@ -3,6 +3,7 @@ const mainRouter = require('./routes');
 
 // Create an instance of Express
 const app = express();
+app.use(express.json());
 
 // Define a route
 app.get('/', (req, res) => {
