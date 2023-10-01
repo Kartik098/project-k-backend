@@ -19,7 +19,7 @@ function responseLogger(req, res, next) {
 
   // Override res.json() to log the response message and request details
   res.json = function (data) {
-    const logMessage = `info : ${res.statusCode} ${req.method} '${req.originalUrl}' "${data.message}"`;
+    const logMessage = `info : ${res.statusCode} ${req.method} '${req.originalUrl}' "${data.message ? data.message : ''}"`;
     console.log(logMessage);
     originalJson.call(this, data);
   };
