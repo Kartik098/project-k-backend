@@ -13,7 +13,20 @@ app.use(cors());
 app.get('/', (req, res) => {
   res.send('Hello, Express!');
 });
+function responseLogger(req, res, next) {
+  // Create a reference to the original res.json() function
+  const originalJson = res.json;
 
+  // Override res.json() to log the response message
+  res.json = function (data) {
+    console.log(`Response message: ${data.message}`);
+    originalJson.call(this, data);
+  };
+
+  next();
+}
+
+app.use(responseLogger);
 app.use(express.urlencoded({ extended: true }));
 // Use the main router
 app.use('/v1', mainRouter);

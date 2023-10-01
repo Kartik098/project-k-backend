@@ -6,15 +6,10 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken")
 const HttpStatus = require('http-status-codes');
 
-async function createUser(userData, res, next) {
+async function createUser(userData, next) {
   // console.log(userData);
-  let user = await findUserByEmail(userData.email)
-  console.log(user)
-  if(user){
-    
-     res.status(HttpStatus.BAD_REQUEST).json({ message: 'Email already used' });
-     return 
-  }
+   
+
   // Generate a unique ID for the user
   const uniqueID = uuidv4();
 
@@ -22,7 +17,23 @@ async function createUser(userData, res, next) {
   const hashedPassword = await bcrypt.hash(userData.password, 10); // 10 is the number of salt rounds
 
   const values = [uniqueID, userData.firstName, userData.lastName, userData.email, hashedPassword];
-  const query = `INSERT INTO users (id, firstName, lastName, email, password) VALUES ('${uniqueID}','${userData.firstName}', '${userData.lastName}', '${userData.email}', '${hashedPassword}')`;
+  const query = `INSERT INTO candidates (id ,contractor_name,
+    trade,
+    discipline,
+    candidate_name,
+    user_photo,
+    id_number,
+    contact,
+    email,
+    nationality,
+    state,
+    marital_status,
+    dateOfBirth,
+    read,
+    write,
+    speak,
+    academic_qualification,
+    other_qualification) VALUES ('${uniqueID}','${userData.firstName}', '${userData.lastName}', '${userData.email}', '${hashedPassword}')`;
 
 
   db.query(query, values, (error, results) => {
@@ -97,6 +108,7 @@ async function findUserByEmail(email) {
       if (error) {
         reject(error);
       } else {
+        console.log(results[0])
         resolve(results[0]); // Assuming there's only one user with the same email
       }
     });
