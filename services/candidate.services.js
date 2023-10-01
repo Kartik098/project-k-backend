@@ -24,7 +24,8 @@ async function createCandidate(body, res, next) {
   }
   // console.log(userData);
    console.log(body)
-const {contractor_name,
+const {
+  contractor_name,
   trade,
   discipline,
   candidate_name,
@@ -91,7 +92,8 @@ const {contractor_name,
       res.status(HttpStatus.BAD_REQUEST).json({ message:error.message });
       return next()
     } else {
-      res.status(HttpStatus.OK).json({ message: 'Candidate created successfully!', data: results[0] });
+      console.log(results)
+      res.status(HttpStatus.OK).json({ message: 'Candidate created successfully!', candidate:{id, ...body}  });
       return
     }
   });
