@@ -100,56 +100,7 @@ const {
 }
  // Import the library
 
-async function login(body, res, next) {
-  const { email, password } = body;
 
-  // Replace 'users' with your actual table name
-  const query = 'SELECT id, email, firstName, lastName, password FROM users WHERE email = ?';
-
-  const values = [email];
-
-  db.query(query, values, async (error, results) => {
-    if (error) {
-      return next(error); // Return to exit the function after calling 'next()'
-    }
-
-    if (results.length === 0) {
-      // User not found
-   
-      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
-    }
-
-    const user = results[0];
-    const hashedPassword = user.password;
-
-    try {
-      const isPasswordValid = await bcrypt.compare(password, hashedPassword);
-
-      if (!isPasswordValid) {
-   
-
-        // Invalid password
-        return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
-      }
-
-      const userData = {
-        userId: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName:user.lastName
-        // Add any other user data you want to include
-      };
-
-      // Generate a JWT token with the entire userData
-      const token = jwt.sign(userData, 'your-secret-key', { expiresIn: '1h' });
-
-      // For demonstration, you can send the token in the response
-      return res.status(HttpStatus.OK).json({ message: 'Authentication successful', token });
-    } catch (compareError) {
-      return next(compareError); // Return to exit the function after calling 'next()'
-    }
-  });
-}
 
 async function findCandidateByEmail(email) {
   const query = 'SELECT * FROM candidates WHERE email = ?';
@@ -165,6 +116,23 @@ async function findCandidateByEmail(email) {
       }
     });
   });
+}
+async function getAllCandidates(data, res) {
+  let query = 'SELECT * FROM candidates';
+  const values = [];
+  return new Promise((resolve, reject) => {
+    db.query(query, values, (error, results) => {
+      if (error) {
+        res.status(HttpStatus.BAD_REQUEST).json({ message:error.message });
+      return next()
+      } else {
+        res.status(HttpStatus.OK).json({ results:results  });
+
+       
+      }
+    });
+  });
+
 }
 async function findCandidateById_Number(id) {
   const query = 'SELECT * FROM candidates WHERE id_number = ?';
@@ -184,6 +152,7 @@ async function findCandidateById_Number(id) {
 
 module.exports = {
   createCandidate,
-  findCandidateByEmail
+  findCandidateByEmail,
+  getAllCandidates
 
 };

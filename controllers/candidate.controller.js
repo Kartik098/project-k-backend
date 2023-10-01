@@ -6,6 +6,10 @@ const createCandidate = async (req, res, next) => {
   
     // res.send(result)
   };
+const getAllCandidates = async (req, res, next) => {
+  const result = await CandidateServices.getAllCandidates(req.body, res)
+}
   module.exports = {
-    createCandidate
+    createCandidate,
+    getAllCandidates
 }

@@ -5,8 +5,8 @@ const router = express.Router();
 
 // Define routes for users
 // router.get('/', UserController.getAllUsers);
-// router.get('/:id', userController.getUserById);
-router.post('/', CandidateController.createCandidate);
+router.get('/get', CandidateController.getAllCandidates);
+router.post('/create', CandidateController.createCandidate);
 // router.post('/login', UserController.loginUser);
 
 // router.put('/:id', userController.updateUser);
