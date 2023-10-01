@@ -3,7 +3,9 @@ const db = require('../db');
 const { v4: uuidv4 } = require('uuid');
 const {  ApiError } = require('../error/error.js');
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken")
 const HttpStatus = require('http-status-codes');
+
 async function createUser(userData, next) {
   console.log(userData);
 
@@ -33,7 +35,7 @@ async function login(body, res, next) {
   const { email, password } = body;
 
   // Replace 'users' with your actual table name
-  const query = 'SELECT id, email, password FROM users WHERE email = ?';
+  const query = 'SELECT id, email, firstName, lastName, password FROM users WHERE email = ?';
 
   const values = [email];
 
@@ -47,7 +49,7 @@ async function login(body, res, next) {
       console.log("Hello")
       return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
     }
-
+console.log(results)
     const user = results[0];
     const hashedPassword = user.password;
 
@@ -61,11 +63,19 @@ async function login(body, res, next) {
         return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
       }
 
-      // Password is valid; you can create a JWT token or session here for authentication
-      console.log("Hello3")
+      const userData = {
+        userId: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName:user.lastName
+        // Add any other user data you want to include
+      };
+console.log(userData)
+      // Generate a JWT token with the entire userData
+      const token = jwt.sign(userData, 'your-secret-key', { expiresIn: '1h' });
 
-      // For demonstration, you can send a success response
-      return res.status(HttpStatus.OK).json({ message: 'Authentication successful', userId: user.id });
+      // For demonstration, you can send the token in the response
+      return res.status(HttpStatus.OK).json({ message: 'Authentication successful', token });
     } catch (compareError) {
       return next(compareError); // Return to exit the function after calling 'next()'
     }
