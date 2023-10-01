@@ -6,18 +6,41 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken")
 const HttpStatus = require('http-status-codes');
 
-async function createUser(userData, next) {
+async function createCandidate(body, res, next) {
   // console.log(userData);
-   
+  let user = await findCandidateByEmail(body.email)
 
+  if(user){
+    console.log("hello", user)
+     res.status(HttpStatus.BAD_REQUEST).json({ message: 'Email already used' });
+     return 
+  }
+  // console.log(userData);
+   console.log(body)
+const {contractor_name,
+  trade,
+  discipline,
+  candidate_name,
+  user_photo,
+  id_number,
+  contact,
+  email,
+  nationality,
+  state,
+  marital_status,
+  dateOfBirth,
+  read,
+  write,
+  speak,
+  academic_qualification,
+  other_qualification} = body
   // Generate a unique ID for the user
-  const uniqueID = uuidv4();
+  const id = uuidv4();
 
   // Hash the user's password
-  const hashedPassword = await bcrypt.hash(userData.password, 10); // 10 is the number of salt rounds
+  // 10 is the number of salt rounds
 
-  const values = [uniqueID, userData.firstName, userData.lastName, userData.email, hashedPassword];
-  const query = `INSERT INTO candidates (id ,contractor_name,
+  const values = [id ,contractor_name,
     trade,
     discipline,
     candidate_name,
@@ -33,16 +56,36 @@ async function createUser(userData, next) {
     write,
     speak,
     academic_qualification,
-    other_qualification) VALUES ('${uniqueID}','${userData.firstName}', '${userData.lastName}', '${userData.email}', '${hashedPassword}')`;
+    other_qualification];
+    const query = `INSERT INTO candidates (id ,contractor_name,
+      trade,
+      discipline,
+      candidate_name,
+      user_photo,
+      id_number,
+      contact,
+      email,
+      nationality,
+      state,
+      marital_status,
+      dateOfBirth,
+      \`read\`,
+      \`write\`,
+      \`speak\`,
+      academic_qualification,
+      other_qualification) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, ?, ?, ?)`;
+  
 
 
   db.query(query, values, (error, results) => {
     if (error) {
       const errorObj = new Error(error);
-      errorObj.status = 400; // Set an appropriate status code
-      return next(errorObj);
+      console.log("hello")
+      res.status(HttpStatus.BAD_REQUEST).json({ message:error.message });
+      return next()
     } else {
-      return next(null, results);
+      res.status(HttpStatus.OK).json({ message: 'Candidate created successfully!', data: results[0] });
+      return
     }
   });
 }
@@ -99,8 +142,8 @@ async function login(body, res, next) {
   });
 }
 
-async function findUserByEmail(email) {
-  const query = 'SELECT * FROM users WHERE email = ?';
+async function findCandidateByEmail(email) {
+  const query = 'SELECT * FROM candidates WHERE email = ?';
   const values = [email];
 
   return new Promise((resolve, reject) => {
@@ -116,7 +159,7 @@ async function findUserByEmail(email) {
 }
 
 module.exports = {
-  createUser,
-  findUserByEmail,
-  login
+  createCandidate,
+  findCandidateByEmail
+
 };

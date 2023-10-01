@@ -31,7 +31,10 @@ async function createUser(userData, res, next) {
       errorObj.status = 400; // Set an appropriate status code
       return next(errorObj);
     } else {
-      return next(null, results);
+      console.log(results)
+      res.status(HttpStatus.OK).json({ message: 'User created successfully!', data: results[0] });
+      return
+      // return next(null, results);
     }
   });
 }
