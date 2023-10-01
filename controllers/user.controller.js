@@ -11,9 +11,9 @@ const getUserById = (req, res) => {
 };
 
 const createUser = async (req, res, next) => {
-  console.log(req.body)
+
   const result = await UserServices.createUser(req.body,res, next)
-  console.log(result)
+
   res.send(result)
 };
 const loginUser = async (req, res, next ) =>{

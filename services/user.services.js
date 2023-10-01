@@ -9,7 +9,7 @@ const HttpStatus = require('http-status-codes');
 async function createUser(userData, res, next) {
   // console.log(userData);
   let user = await findUserByEmail(userData.email)
-  console.log(user)
+
   if(user){
     
      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Email already used' });
@@ -52,10 +52,10 @@ async function login(body, res, next) {
 
     if (results.length === 0) {
       // User not found
-      console.log("Hello")
+     
       return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
     }
-console.log(results)
+
     const user = results[0];
     const hashedPassword = user.password;
 
@@ -63,7 +63,7 @@ console.log(results)
       const isPasswordValid = await bcrypt.compare(password, hashedPassword);
 
       if (!isPasswordValid) {
-      console.log("Hello1")
+     
 
         // Invalid password
         return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
@@ -76,7 +76,7 @@ console.log(results)
         lastName:user.lastName
         // Add any other user data you want to include
       };
-console.log(userData)
+
       // Generate a JWT token with the entire userData
       const token = jwt.sign(userData, 'your-secret-key', { expiresIn: '1h' });
 

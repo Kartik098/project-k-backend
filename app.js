@@ -17,9 +17,10 @@ function responseLogger(req, res, next) {
   // Create a reference to the original res.json() function
   const originalJson = res.json;
 
-  // Override res.json() to log the response message
+  // Override res.json() to log the response message and request details
   res.json = function (data) {
-    console.log(`Response message: ${data.message}`);
+    const logMessage = `info : ${res.statusCode} ${req.method} '${req.originalUrl}' "${data.message}"`;
+    console.log(logMessage);
     originalJson.call(this, data);
   };
 

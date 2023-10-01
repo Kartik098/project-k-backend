@@ -63,10 +63,10 @@ async function login(body, res, next) {
 
     if (results.length === 0) {
       // User not found
-      console.log("Hello")
+   
       return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
     }
-console.log(results)
+
     const user = results[0];
     const hashedPassword = user.password;
 
@@ -74,7 +74,7 @@ console.log(results)
       const isPasswordValid = await bcrypt.compare(password, hashedPassword);
 
       if (!isPasswordValid) {
-      console.log("Hello1")
+   
 
         // Invalid password
         return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
@@ -87,7 +87,7 @@ console.log(results)
         lastName:user.lastName
         // Add any other user data you want to include
       };
-console.log(userData)
+
       // Generate a JWT token with the entire userData
       const token = jwt.sign(userData, 'your-secret-key', { expiresIn: '1h' });
 
@@ -108,7 +108,7 @@ async function findUserByEmail(email) {
       if (error) {
         reject(error);
       } else {
-        console.log(results[0])
+     
         resolve(results[0]); // Assuming there's only one user with the same email
       }
     });
