@@ -14,7 +14,6 @@ const createUser = async (req, res, next) => {
 
   const result = await UserServices.createUser(req.body,res, next)
 
-  res.send(result)
 };
 const loginUser = async (req, res, next ) =>{
   const result = await UserServices.login(req.body,res, next)

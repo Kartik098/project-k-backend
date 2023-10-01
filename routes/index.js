@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const userRoutes = require('./user.routes')
-const candidateRoutes = require('./candidate.rputes')
+const candidateRoutes = require('./candidate.routes')
+const userCompanyRoutes = require('./user_companies.routes')
+
 
 const routeObjects = [
     {
@@ -10,6 +12,9 @@ const routeObjects = [
     }, {
       path: '/candidates',
       routes: candidateRoutes,
+    }, {
+      path: '/user-company',
+      routes: userCompanyRoutes,
     },
     
     // Add more route objects as needed
