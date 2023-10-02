@@ -158,7 +158,7 @@ async function updateCandidate(req, res) {
 }
 
 async function getAllCandidates( req, res) {
-  const query = ` SELECT
+  let query = ` SELECT
   c.*,
   JSON_OBJECT('id', u.id, 'candidateId', u.candidateId, 'evaluation', u.evaluation, 'lastEvaluatedDate', u.lastEvaluatedDate, 'writtenMarks', u.writtenMarks, 'oralMarks', u.oralMarks, 'practicalMarks', u.practicalMarks, 'behaviourMarks', u.behaviourMarks, 'totalMarks', u.totalMarks, 'pmOfLtMotors', u.pmOfLtMotors, 'pmOfSwitchGear', u.pmOfSwitchGear, 'pmOfPP', u.pmOfPP, 'pmOfHtMotors', u.pmOfHtMotors, 'cmOfSwitchGear', u.cmOfSwitchGear, 'pmOfLdb', u.pmOfLdb, 'cmOfLtMotors', u.cmOfLtMotors, 'pmOfPowerTransformer', u.pmOfPowerTransformer, 'meggering', u.meggering, 'cmOfHtMotors', u.cmOfHtMotors, 'cmOfPowerTransformer', u.cmOfPowerTransformer, 'basicSafety', u.basicSafety, 'pmOfEarthPit', u.pmOfEarthPit, 'glandingAndTermination', u.glandingAndTermination, 'tbraAndHitra', u.tbraAndHitra, 'cableLaying', u.cableLaying, 'emergencyResponse', u.emergencyResponse, 'toolBoxTalk', u.toolBoxTalk, 'lprzt', u.lprzt, 'rolesAndResponsibilities', u.rolesAndResponsibilities, 'workPermitSystem', u.workPermitSystem, 'writtenPhotoUrl', u.writtenPhotoUrl, 'oralVideoUrl', u.oralVideoUrl, 'practicalPhotoUrl', u.practicalPhotoUrl) AS evaluationData
 FROM candidates c
