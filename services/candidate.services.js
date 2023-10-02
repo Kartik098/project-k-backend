@@ -127,23 +127,72 @@ async function findCandidateByEmail(email) {
     });
   });
 }
-async function getAllCandidates(data, res) {
-  let query = 'SELECT * FROM candidates';
-  const values = [];
-  return new Promise((resolve, reject) => {
-    db.query(query, values, (error, results) => {
-      if (error) {
-        res.status(HttpStatus.BAD_REQUEST).json({ message:error.message });
-      return next()
-      } else {
-        res.status(HttpStatus.OK).json({ results:results  });
+async function updateCandidate(req, res) {
+  const { id } = req.params; // Extract the candidate ID from the request parameters
+  const updatedData = req.body; // Updated data should be sent in the request body
 
-       
+  if (!id) {
+    return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Candidate ID is required.' });
+  }
+
+  if (!updatedData || Object.keys(updatedData).length === 0) {
+    return res.status(HttpStatus.BAD_REQUEST).json({ message: 'No data provided for update.' });
+  }
+
+  const query = 'UPDATE candidates SET ? WHERE id = ?'; // Use ? as a placeholder for the updated data
+  const values = [updatedData, id];
+
+  return new Promise((resolve, reject) => {
+    db.query(query, values, (error, result) => {
+      if (error) {
+        res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(HttpStatus.NOT_FOUND).json({ message: 'Candidate not found.' });
+        } else {
+          res.status(HttpStatus.OK).json({ message: 'Candidate updated successfully.' });
+        }
       }
     });
   });
-
 }
+
+async function getAllCandidates( req, res) {
+  let query = 'SELECT * FROM candidates WHERE 1=1'; // Start with a WHERE 1=1 condition
+  const values = [];
+
+  // Check for query parameters and add conditions to the query as needed
+  if (req.query.id) {
+    query += ' AND id = ?';
+    values.push(req.query.id);
+  }
+
+  if (req.query.email) {
+    query += ' AND email = ?';
+    values.push(req.query.email);
+  }
+
+  if (req.query.candidate_name) {
+    query += ' AND candidate_name = ?';
+    values.push(req.query.candidate_name);
+  }
+
+  if (req.query.contractor_name) {
+    query += ' AND contractor_name = ?';
+    values.push(req.query.contractor_name);
+  }
+
+  return new Promise((resolve, reject) => {
+    db.query(query, values, (error, results) => {
+      if (error) {
+        res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
+      } else {
+        res.status(HttpStatus.OK).json({ results });
+      }
+    });
+  });
+}
+
 async function findCandidateById_Number(id) {
   const query = 'SELECT * FROM candidates WHERE id_number = ?';
   const values = [id];
@@ -163,6 +212,7 @@ async function findCandidateById_Number(id) {
 module.exports = {
   createCandidate,
   findCandidateByEmail,
-  getAllCandidates
+  getAllCandidates,
+  updateCandidate
 
 };

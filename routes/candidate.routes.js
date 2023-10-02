@@ -9,7 +9,7 @@ router.get('/get', CandidateController.getAllCandidates);
 router.post('/create', CandidateController.createCandidate);
 // router.post('/login', UserController.loginUser);
 
-// router.put('/:id', userController.updateUser);
+router.post('/:id', CandidateController.updateCandidate);
 // router.delete('/:id', userController.deleteUser);
 
 module.exports = router;
