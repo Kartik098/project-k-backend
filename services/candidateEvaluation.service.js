@@ -34,6 +34,7 @@ console.log("hello")
         glandingAndTermination,
         tbraAndHitra,
         cableLaying,
+        lprzt,
         emergencyResponse,
         toolBoxTalk,
         rolesAndResponsibilities,
@@ -46,36 +47,22 @@ console.log("hello")
   const uniqueID = uuidv4();
 console.log("hello")
 
-  const values = [
-    uniqueID,
-    evaluation, lastEvaluatedDate, writtenMarks, oralMarks, practicalMarks, behaviourMarks, totalMarks,
-    candidateId,
-    pmOfLtMotors,
-    pmOfSwitchGear,
-    pmOfPP,
-    pmOfHtMotors,
-    cmOfSwitchGear,
-    pmOfLdb,
-    cmOfLtMotors,
-    pmOfPowerTransformer,
-    meggering,
-    cmOfHtMotors,
-    cmOfPowerTransformer,
-    basicSafety,
-    pmOfEarthPit,
-    glandingAndTermination,
-    tbraAndHitra,
-    cableLaying,
-    emergencyResponse,
-    toolBoxTalk,
-    rolesAndResponsibilities,
-    workPermitSystem,
-    writtenPhotoUrl,
-    oralVideoUrl,
-    practicalPhotoUrl
-  ];
+const query = `INSERT INTO candidateevaluations (
+  id, evaluation, lastEvaluatedDate, writtenMarks, oralMarks, practicalMarks, totalMarks, pmOfLtMotors, pmOfSwitchGear, pmOfPP, pmOfHtMotors, 
+  cmOfSwitchGear, pmOfLdb, cmOfLtMotors, pmOfPowerTransformer, meggering, cmOfHtMotors, 
+  cmOfPowerTransformer, basicSafety, pmOfEarthPit, glandingAndTermination, tbraAndHitra, 
+  cableLaying, emergencyResponse, toolBoxTalk, rolesAndResponsibilities, lprzt, 
+  workPermitSystem, writtenPhotoUrl, oralVideoUrl,practicalPhotoUrl,behaviourMarks, candidateId
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-  const query = `INSERT INTO candidateevaluations (id,candidateId, evaluation, lastEvaluatedDate, writtenMarks, oralMarks, practicalMarks, behaviourMarks, totalMarks, pmOfLtMotors, pmOfSwitchGear, pmOfPP, pmOfHtMotors, cmOfSwitchGear, pmOfLdb, cmOfLtMotors, pmOfPowerTransformer, meggering, cmOfHtMotors, cmOfPowerTransformer, basicSafety, pmOfEarthPit, glandingAndTermination, tbraAndHitra, cableLaying, emergencyResponse, toolBoxTalk, rolesAndResponsibilities, workPermitSystem, writtenPhotoUrl, oralVideoUrl, practicalPhotoUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+const values = [
+  /* Add your values here in the same order as the fields in the query */
+  uniqueID, evaluation, lastEvaluatedDate, writtenMarks, oralMarks, practicalMarks, totalMarks, pmOfLtMotors, pmOfSwitchGear, pmOfPP, pmOfHtMotors, 
+  cmOfSwitchGear, pmOfLdb, cmOfLtMotors, pmOfPowerTransformer, meggering, cmOfHtMotors, 
+  cmOfPowerTransformer, basicSafety, pmOfEarthPit, glandingAndTermination, tbraAndHitra, 
+  cableLaying, emergencyResponse, toolBoxTalk, rolesAndResponsibilities, lprzt, 
+  workPermitSystem, writtenPhotoUrl, oralVideoUrl,practicalPhotoUrl,behaviourMarks, candidateId
+];
 
 
 
