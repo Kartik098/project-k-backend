@@ -74,7 +74,7 @@ const values = [
       return next()
     } else {
       console.log(results)
-      res.status(HttpStatus.OK).json({ message: 'Evaluation created successfully!', data: body });
+      res.status(HttpStatus.OK).json({ message: 'Evaluation created successfully!', data: {id:uniqueID,...body} });
       return
       // return next(null, results);
     }
