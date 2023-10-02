@@ -82,7 +82,33 @@ const values = [
 }
  // Import the library
  async function getAllCandidateEvaluations( req, res) {
-  let query = 'SELECT * FROM candidateevaluations WHERE 1=1'; // Start with a WHERE 1=1 condition
+  let query = `SELECT
+  c.*,
+  JSON_OBJECT(
+    'id', u.id,
+    'candidate_name', u.candidate_name,
+    'contractor_name', u.contractor_name,
+    'trade', u.trade,
+    'discipline', u.discipline,
+    'user_photo', u.user_photo,
+    'email', u.email,
+    'nationality', u.nationality,
+    'state', u.state,
+    'marital_status', u.marital_status,
+    'dateOfBirth', u.dateOfBirth,
+    'read', u.read,
+    'write', u.write,
+    'speak', u.speak,
+    'academic_qualification', u.academic_qualification,
+    'other_qualification', u.other_qualification,
+    'id_number', u.id_number,
+    'contact', u.contact,
+    'createdDate', u.createdDate
+  ) AS candidateData
+FROM candidateevaluations c
+LEFT JOIN candidates u ON c.candidateId = u.id
+WHERE 1=1`
+// Start with a WHERE 1=1 condition
   const values = [];
 
   // Check for query parameters and add conditions to the query as needed

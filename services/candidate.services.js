@@ -158,27 +158,32 @@ async function updateCandidate(req, res) {
 }
 
 async function getAllCandidates( req, res) {
-  let query = 'SELECT * FROM candidates WHERE 1=1'; // Start with a WHERE 1=1 condition
+  const query = ` SELECT
+  c.*,
+  JSON_OBJECT('id', u.id, 'candidateId', u.candidateId, 'evaluation', u.evaluation, 'lastEvaluatedDate', u.lastEvaluatedDate, 'writtenMarks', u.writtenMarks, 'oralMarks', u.oralMarks, 'practicalMarks', u.practicalMarks, 'behaviourMarks', u.behaviourMarks, 'totalMarks', u.totalMarks, 'pmOfLtMotors', u.pmOfLtMotors, 'pmOfSwitchGear', u.pmOfSwitchGear, 'pmOfPP', u.pmOfPP, 'pmOfHtMotors', u.pmOfHtMotors, 'cmOfSwitchGear', u.cmOfSwitchGear, 'pmOfLdb', u.pmOfLdb, 'cmOfLtMotors', u.cmOfLtMotors, 'pmOfPowerTransformer', u.pmOfPowerTransformer, 'meggering', u.meggering, 'cmOfHtMotors', u.cmOfHtMotors, 'cmOfPowerTransformer', u.cmOfPowerTransformer, 'basicSafety', u.basicSafety, 'pmOfEarthPit', u.pmOfEarthPit, 'glandingAndTermination', u.glandingAndTermination, 'tbraAndHitra', u.tbraAndHitra, 'cableLaying', u.cableLaying, 'emergencyResponse', u.emergencyResponse, 'toolBoxTalk', u.toolBoxTalk, 'lprzt', u.lprzt, 'rolesAndResponsibilities', u.rolesAndResponsibilities, 'workPermitSystem', u.workPermitSystem, 'writtenPhotoUrl', u.writtenPhotoUrl, 'oralVideoUrl', u.oralVideoUrl, 'practicalPhotoUrl', u.practicalPhotoUrl) AS evaluationData
+FROM candidates c
+LEFT JOIN candidateevaluations u ON c.marksId = u.id
+WHERE 1=1`;
   const values = [];
 
   // Check for query parameters and add conditions to the query as needed
   if (req.query.id) {
-    query += ' AND id = ?';
+    query += ' AND c.id = ?';
     values.push(req.query.id);
   }
   
   if (req.query.email) {
-    query += ' AND email = ?';
+    query += ' AND c.email = ?';
     values.push(req.query.email);
   }
 
   if (req.query.candidate_name) {
-    query += ' AND candidate_name = ?';
+    query += ' AND c.candidate_name = ?';
     values.push(req.query.candidate_name);
   }
 
   if (req.query.contractor_name) {
-    query += ' AND contractor_name = ?';
+    query += ' AND c.contractor_name = ?';
     values.push(req.query.contractor_name);
   }
 
