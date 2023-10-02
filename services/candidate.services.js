@@ -49,14 +49,13 @@ const {
   // Hash the user's password
   // 10 is the number of salt rounds
 
-  const values = [id ,contractor_name,
+  const values = [
+    id,
+    candidate_name,
+    contractor_name,
     trade,
     discipline,
-    candidate_name,
     user_photo,
-    id_number,
-    contact,
-    createdDate,
     email,
     nationality,
     state,
@@ -66,25 +65,33 @@ const {
     write,
     speak,
     academic_qualification,
-    other_qualification];
-    const query = `INSERT INTO candidates (id ,contractor_name,
-      trade,
-      discipline,
-      candidate_name,
-      user_photo,
-      id_number,
-      contact,
-      email,
-      nationality,
-      createdDate,
-      state,
-      marital_status,
-      dateOfBirth,
-      \`read\`,
-      \`write\`,
-      \`speak\`,
-      academic_qualification,
-      other_qualification) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, ?, ?, ?)`;
+    other_qualification,
+    id_number,
+    contact,
+    createdDate,
+  ];
+  
+  const query = `INSERT INTO candidates (
+    id,
+    candidate_name,
+    contractor_name,
+    trade,
+    discipline,
+    user_photo,
+    email,
+    nationality,
+    state,
+    marital_status,
+    dateOfBirth,
+    \`read\`,
+    \`write\`,
+    \`speak\`,
+    academic_qualification,
+    other_qualification,
+    id_number,
+    contact,
+    createdDate,
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   
 
 
