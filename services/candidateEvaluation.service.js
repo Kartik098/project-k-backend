@@ -81,11 +81,68 @@ const values = [
   });
 }
  // Import the library
+ async function getAllCandidateEvaluations( req, res) {
+  let query = 'SELECT * FROM candidateevaluations WHERE 1=1'; // Start with a WHERE 1=1 condition
+  const values = [];
+
+  // Check for query parameters and add conditions to the query as needed
+  if (req.query.id) {
+    query += ' AND id = ?';
+    values.push(req.query.id);
+  }
+
+  if (req.query.candidateId) {
+    query += ' AND candidateId = ?';
+    values.push(req.query.candidateId);
+  }
 
 
+
+  return new Promise((resolve, reject) => {
+    db.query(query, values, (error, results) => {
+      if (error) {
+        res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
+      } else {
+        res.status(HttpStatus.OK).json({ results });
+      }
+    });
+  });
+}
+ async function updateCandidateEvaluation(req, res) {
+  const { id } = req.params; // Extract the candidate ID from the request parameters
+  console.log(id)
+  const updatedData = req.body; // Updated data should be sent in the request body
+
+  if (!id) {
+    return res.status(HttpStatus.BAD_REQUEST).json({ message: 'evaluation ID is required.' });
+  }
+
+  if (!updatedData || Object.keys(updatedData).length === 0) {
+    return res.status(HttpStatus.BAD_REQUEST).json({ message: 'No data provided for update.' });
+  }
+
+  const query = 'UPDATE candidateevaluations SET ? WHERE id = ?'; // Use ? as a placeholder for the updated data
+  const values = [updatedData, id];
+
+  return new Promise((resolve, reject) => {
+    db.query(query, values, (error, result) => {
+      if (error) {
+        res.status(HttpStatus.BAD_REQUEST).json({ message: error.message });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(HttpStatus.NOT_FOUND).json({ message: 'Evaluation not found.' });
+        } else {
+          res.status(HttpStatus.OK).json({ message: 'Evaluation updated successfully.' });
+        }
+      }
+    });
+  });
+}
 
 
 
 module.exports = {
-    createCandidateEvaluation
+    createCandidateEvaluation,
+  updateCandidateEvaluation,
+getAllCandidateEvaluations
 };

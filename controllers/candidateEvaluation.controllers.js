@@ -9,7 +9,16 @@ const createCandidateEvaluation = async (req, res, next) => {
   const result = await CandidateEvaluationServices.createCandidateEvaluation(req.body,res, next)
 
 };
+const updateCandidateEvaluation = async (req, res, next) => {
 
+  const result = await CandidateEvaluationServices.updateCandidateEvaluation(req,res)
+
+  // res.send(result)
+};
+const getAllCandidateEvaluations = async (req, res, next) =>{
+  const result = await CandidateEvaluationServices.getAllCandidateEvaluations(req,res)
+
+}
 // exports.updateUser = (req, res) => {
 //   // Implementation to update a user
 // };
@@ -20,5 +29,6 @@ const createCandidateEvaluation = async (req, res, next) => {
 
 module.exports = {
     createCandidateEvaluation,
-    
+    updateCandidateEvaluation,
+    getAllCandidateEvaluations
 }

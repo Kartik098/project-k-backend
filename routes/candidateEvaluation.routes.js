@@ -5,6 +5,8 @@ const router = express.Router();
 
 
 router.post('/create', CandidateEvaluationController.createCandidateEvaluation);
+router.post('/:id', CandidateEvaluationController.updateCandidateEvaluation);
+router.get('/get', CandidateEvaluationController.getAllCandidateEvaluations)
 
 
 

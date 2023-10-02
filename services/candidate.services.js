@@ -166,7 +166,7 @@ async function getAllCandidates( req, res) {
     query += ' AND id = ?';
     values.push(req.query.id);
   }
-
+  
   if (req.query.email) {
     query += ' AND email = ?';
     values.push(req.query.email);
